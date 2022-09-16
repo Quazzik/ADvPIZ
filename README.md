@@ -1,14 +1,14 @@
 # АНАЛИЗ ДАННЫХ И ИСКУССТВЕННЫЙ ИНТЕЛЛЕКТ [in GameDev]
 Отчет по лабораторной работе #1 выполнил(а):
-- Иванова Ивана Варкравтовна
-- РИ000024
+- Коротков Юрий Артемович
+- НМТ-213901
 Отметка о выполнении заданий (заполняется студентом):
 
 | Задание | Выполнение | Баллы |
 | ------ | ------ | ------ |
-| Задание 1 | # | 60 |
-| Задание 2 | # | 20 |
-| Задание 3 | # | 20 |
+| Задание 1 | * | 60 |
+| Задание 2 | * | 20 |
+| Задание 3 | * | 20 |
 
 знак "*" - задание выполнено; знак "#" - задание не выполнено;
 
@@ -32,107 +32,176 @@
 - Задание 3.
 - Код реализации выполнения задания. Визуализация результатов выполнения (если применимо).
 - Выводы.
-- ✨Magic ✨
 
 ## Цель работы
 Ознакомиться с основными операторами зыка Python на примере реализации линейной регрессии.
 
 ## Задание 1
-### Пошагово выполнить каждый пункт раздела "ход работы" с описанием и примерами реализации задач
-Ход работы:
-- Произвести подготовку данных для работы с алгоритмом линейной регрессии. 10 видов данных были установлены случайным образом, и данные находились в линейной зависимости. Данные преобразуются в формат массива, чтобы их можно было вычислить напрямую при использовании умножения и сложения.
+### Написать программы Hello World на Python и Unity
+При помощи инструмента Jupiter Notebook мной была написана примитивная однострочная программа, выводящая надпись "Hello World"
+Скриншот результата выполнения программы:
 
+![image](https://user-images.githubusercontent.com/113617617/190617739-89758ba0-321c-4ed2-9efa-9d5e084751ef.png)
+Код программы:
 ```py
 
-In [ ]:
-#Import the required modules, numpy for calculation, and Matplotlib for drawing
-import numpy as np
-import matplotlib.pyplot as plt
-#This code is for jupyter Notebook only
-%matplotlib inline
-
-# define data, and change list to array
-x = [3,21,22,34,54,34,55,67,89,99]
-x = np.array(x)
-y = [2,22,24,65,79,82,55,130,150,199]
-y = np.array(y)
-
-#Show the effect of a scatter plot
-plt.scatter(x,y)
+print('Hello World')
 
 ```
 
-- Определите связанные функции. Функция модели: определяет модель линейной регрессии wx+b. Функция потерь: функция потерь среднеквадратичной ошибки. Функция оптимизации: метод градиентного спуска для нахождения частных производных w и b.
+В юнити мной был создан 2D проект, в него добавлен скрипт HelloWorld.cs (код приведен ниже), который я прикрепил к камере.
+```С#
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class HelloWorld : MonoBehaviour
+{
+    // Start is called before the first frame update
+    void Start()
+    {
+        Debug.Log("Hello World");
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+}
+
+```
+
+Скриншот результата запуска сцены:
+
+![image](https://user-images.githubusercontent.com/113617617/190618721-09e41eb3-dafb-4810-a48b-d4806324fda5.png)
 
 
 ## Задание 2
-### Должна ли величина loss стремиться к нулю при изменении исходных данных? Ответьте на вопрос, приведите пример выполнения кода, который подтверждает ваш ответ.
+### В разделе «Ход работы» пошагово выполнить каждый пункт с описанием и примером реализации задачи по теме лабораторной работы.
 
-- Перечисленные в этом туториале действия могут быть выполнены запуском на исполнение скрипт-файла, доступного [в репозитории](https://github.com/Den1sovDm1triy/hfss-scripting/blob/main/ScreatingSphereInAEDT.py).
-- Для запуска скрипт-файла откройте Ansys Electronics Desktop. Перейдите во вкладку [Automation] - [Run Script] - [Выберите файл с именем ScreatingSphereInAEDT.py из репозитория].
-
+В ходе выполнения следующего задания я полностью разобрал код и даже модифицировал, но для начала я переписал его из методических указаний:
 ```py
+import numpy as np
+import matplotlib.pyplot as plt
+%matplotlib inline
 
-import ScriptEnv
-ScriptEnv.Initialize("Ansoft.ElectronicsDesktop")
-oDesktop.RestoreWindow()
-oProject = oDesktop.NewProject()
-oProject.Rename("C:/Users/denisov.dv/Documents/Ansoft/SphereDIffraction.aedt", True)
-oProject.InsertDesign("HFSS", "HFSSDesign1", "HFSS Terminal Network", "")
-oDesign = oProject.SetActiveDesign("HFSSDesign1")
-oEditor = oDesign.SetActiveEditor("3D Modeler")
-oEditor.CreateSphere(
-	[
-		"NAME:SphereParameters",
-		"XCenter:="		, "0mm",
-		"YCenter:="		, "0mm",
-		"ZCenter:="		, "0mm",
-		"Radius:="		, "1.0770329614269mm"
-	], 
-)
+x=[3,21,22,34,54,34,55,67,89,99]
+x=np.array(x)
+y=[2,22,24,65,79,82,55,130,150,199]
+y=np.array(y)
 
+plt.scatter(x,y)
+
+
+def model (a,b,x):
+    return a*x+b
+
+def loss_function(a,b,x,y):
+    num = len(x)
+    prediction = model(a,b,x)
+    return (0.5/num)*(np.square(prediction-y)).sum()
+
+def optimize(a,b,x,y):
+    num = len(x)
+    prediction = model(a,b,x)
+    da=(0.1/num)*((prediction-y)*x).sum()
+    db=(0.1/num)*((prediction-y).sum())
+    a=a-Lr*da
+    b=b-Lr*db
+    return a,b
+
+def iterate(a,b,x,y,times):
+    for i in range(times):
+        a,b = optimize(a,b,x,y)
+        return(a,b)
+    
+a=np.random.rand(1)
+print(a)
+b=np.random.rand(1)
+print(b)
+Lr = 0.0000001
+a,b = iterate(a,b,x,y,100)
+prediction = model(a,b,x)
+loss = loss_function(a,b,x,y)
+print(a,b,loss)
+plt.scatter(x,y)
+plt.plot(x,prediction)
+```
+При выполнении кода появляется вот такой график:
+
+![image](https://user-images.githubusercontent.com/113617617/190675340-fb4bc766-7bc2-4f6e-8c5c-31efc33f6793.png)
+
+
+## Изучить код на Python и ответить на вопросы:
+
+ - Должна ли величина loss стремиться к нулю при изменении исходных данных? Ответьте на вопрос, приведите пример выполнения кода, который подтверждает ваш ответ.
+
+Loss будет равен нулю если входной y всегда будет равен y[i]=a*x[i]+b
+Для начала введу некоторое равенство: y[i]=a*x[i]+b=y(!). И так, если разность между y(1) и y[i] будет уменьшаться, то loss тоже будет уменьшаться (стремиться к нулю). Для доказательство это я изменил входные данные так, чтобы разница между ожидаемыми и входными значениями уменьшалась и в итоге была равна нулю. Так же для удобства я установил коэффиценты a и b = 1. Ниже представлен код:
+```py
+import numpy as np
+import matplotlib.pyplot as plt
+%matplotlib inline
+
+x=[1,2,3,4,5,6,7,8,9,10]
+x=np.array(x)
+y=[70,60,50,40,30,7,8,9,10,11]
+y=np.array(y)
+
+plt.scatter(x,y)
+
+
+def model (a,b,x):
+    return a*x+b
+
+def loss_function(a,b,x,y):
+    num = len(x)
+    prediction = model(a,b,x)
+    return (0.5/num)*(np.square(prediction-y)).sum()
+
+def optimize(a,b,x,y):
+    num = len(x)
+    prediction = model(a,b,x)
+    da=(0.1/num)*((prediction-y)*x).sum()
+    db=(0.1/num)*((prediction-y).sum())
+    a=a-Lr*da
+    b=b-Lr*db
+    return a,b
+
+def iterate(a,b,x,y,times):
+    for i in range(times):
+        a,b = optimize(a,b,x,y)
+        return(a,b)
+    
+a=1
+print(a)
+b=1
+print(b)
+Lr = 0.000001
+a,b = iterate(a,b,x,y,100)
+prediction = model(a,b,x)
+loss = loss_function(a,b,x,y)
+print(a,b,loss)
+plt.scatter(x,y)
+plt.plot(x,prediction)
 ```
 
-## Задание 3
+В ходе выполнения программы генерируется следующий график:
+
+![image](https://user-images.githubusercontent.com/113617617/190675565-eedf2c5e-5aac-4456-8024-407f25f43195.png)
+
 ### Какова роль параметра Lr? Ответьте на вопрос, приведите пример выполнения кода, который подтверждает ваш ответ. В качестве эксперимента можете изменить значение параметра.
 
-- Перечисленные в этом туториале действия могут быть выполнены запуском на исполнение скрипт-файла, доступного [в репозитории](https://github.com/Den1sovDm1triy/hfss-scripting/blob/main/ScreatingSphereInAEDT.py).
-- Для запуска скрипт-файла откройте Ansys Electronics Desktop. Перейдите во вкладку [Automation] - [Run Script] - [Выберите файл с именем ScreatingSphereInAEDT.py из репозитория].
-
-```py
-
-import ScriptEnv
-ScriptEnv.Initialize("Ansoft.ElectronicsDesktop")
-oDesktop.RestoreWindow()
-oProject = oDesktop.NewProject()
-oProject.Rename("C:/Users/denisov.dv/Documents/Ansoft/SphereDIffraction.aedt", True)
-oProject.InsertDesign("HFSS", "HFSSDesign1", "HFSS Terminal Network", "")
-oDesign = oProject.SetActiveDesign("HFSSDesign1")
-oEditor = oDesign.SetActiveEditor("3D Modeler")
-oEditor.CreateSphere(
-	[
-		"NAME:SphereParameters",
-		"XCenter:="		, "0mm",
-		"YCenter:="		, "0mm",
-		"ZCenter:="		, "0mm",
-		"Radius:="		, "1.0770329614269mm"
-	], 
-)
-
-```
+в ходе выполнения программы считается сумма отклонений y от предполождительного если бы точки считались по функции, а не были заданы (da,db).
+a и b получают значение разности самих себя с этими отклонениями, умноженными на коэффицент Lr
+Lr - "сдерживающий" коэффицент, не прозволяющим a и b прийти к нулю и, соответственно обнулить функцию.
 
 ## Выводы
 
 Абзац умных слов о том, что было сделано и что было узнано.
 
-| Plugin | README |
-| ------ | ------ |
-| Dropbox | [plugins/dropbox/README.md][PlDb] |
-| GitHub | [plugins/github/README.md][PlGh] |
-| Google Drive | [plugins/googledrive/README.md][PlGd] |
-| OneDrive | [plugins/onedrive/README.md][PlOd] |
-| Medium | [plugins/medium/README.md][PlMe] |
-| Google Analytics | [plugins/googleanalytics/README.md][PlGa] |
+За время выполнения лабораторной работы я познакомился с Unity, установил всё необходимое для дальнейшей работы ПО, научился поздавать, писать и использовать скрипты в сценах Unity, освежил навыки работы в Python, освоил базовые навыки работы в Jupiter Notepad и в Anaconda в целом.
 
 ## Powered by
 
