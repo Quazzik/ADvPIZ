@@ -201,7 +201,7 @@ public class NewBehaviourScript : MonoBehaviour
 }
 ```
 
-Пустой объект получил набор звуков и к нему был прикреплен напианный скрипт:
+Пустой объект получил набор звуков и к нему был прикреплен написанный скрипт:
 
 ![image](https://user-images.githubusercontent.com/113617617/193408103-dfa8c9cf-a2d7-42c0-aaba-26eb7d21dcdc.png)
 
