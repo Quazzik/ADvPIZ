@@ -41,7 +41,8 @@
 
 В Anaconda prompt мой были установлены библиотеки mlagents и pytorch.
 
-Далее юнити мной был создан 3D проект, в него добавлеы пол, шар и куб. В packages были добавлены LM Agents и ML Agents Extencions
+Далее в юнити мной был создан 3D проект, в него добавлеы пол, шар и куб. В packages были добавлены LM Agents и ML Agents Extencions
+
 ![image](https://user-images.githubusercontent.com/113617617/197934308-74558dbc-9367-4222-924e-32809ea2a0c8.png)
 
 В проект был добавлен предложенный скрипт RollerAgent. Он прикреплен к шару (код представлен ниже).
@@ -109,7 +110,7 @@ public class RollerAgent : Agent
 
 В корень проекта был добавлен файл конфигурации нейронной сети rollerball_config.yaml
 
-После всех приготовлений в Anaconda Prompt был запущен ML-агент. Так же была запущена сцена в Unity. Результат этих действий представлени в видео ниже.
+После всех приготовлений в Anaconda Prompt был запущен ML-агент. Так же была запущена сцена в Unity. Результат этих действий представлен в видео ниже.
 
 https://user-images.githubusercontent.com/113617617/197938425-4e678a88-12b7-4350-8766-c1dc765c6b0a.mp4
 
